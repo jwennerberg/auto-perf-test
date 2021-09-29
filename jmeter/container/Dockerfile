@@ -34,13 +34,12 @@ WORKDIR $JMETER_BASE
 
 COPY scripts/run.sh $JMETER_BASE/run.sh
 
-RUN chgrp -R 0 $JMETER_BASE
-RUN chmod -R g+rw $JMETER_BASE
-RUN chmod +x $JMETER_BASE/run.sh
+USER 0
 
-#1001 is an arbitrary choice
+RUN chgrp -R 0 $JMETER_BASE \
+    && chmod -R g+rw $JMETER_BASE \
+    && chmod +x $JMETER_BASE/run.sh
+
 USER 1001
-
-# EXPOSE 8000
 
 ENTRYPOINT $JMETER_BASE/run.sh
