@@ -1,15 +1,15 @@
-FROM fabric8/java-centos-openjdk8-jdk:1.4
+FROM registry.access.redhat.com/ubi8/openjdk-8-runtime:1.10-1
 MAINTAINER Frédéric Giloux
-LABEL jmeter.version="4.0"
+LABEL jmeter.version="5.4"
 
 # Set JMeter base
 ENV JMETER_BASE /opt/jmeter
 
 # Create jmeter directory with tests and results folder and install JMeter
 RUN mkdir -p $JMETER_BASE/{tests,results} \
-    && curl -SL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-4.0.tgz \
+    && curl -SL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.4.tgz \
     | tar -xzC $JMETER_BASE \
-    && rm -rf apache-jmeter-4.0.tgz
+    && rm -rf apache-jmeter-5.4.tgz
 
 # If you don't have internet access from the build machine use COPY instead of curl:
 # COPY binaries/apache-jmeter-4.0.tgz $JMETER_BASE
@@ -18,7 +18,7 @@ RUN mkdir -p $JMETER_BASE/{tests,results} \
 # COPY binaries/JMeterPlugins-ExtrasLibs-1.4.0.zip $JMETER_BASE/apache-jmeter-4.0/
 
 # Set JMeter home
-ENV JMETER_HOME $JMETER_BASE/apache-jmeter-4.0
+ENV JMETER_HOME $JMETER_BASE/apache-jmeter-5.4
 
 # Add JMeter to the Path
 ENV PATH $JMETER_HOME/bin:$PATH
@@ -41,6 +41,6 @@ RUN chmod +x $JMETER_BASE/run.sh
 #1001 is an arbitrary choice
 USER 1001
 
-# EXPOSE 8000 
+# EXPOSE 8000
 
 ENTRYPOINT $JMETER_BASE/run.sh
